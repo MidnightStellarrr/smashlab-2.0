@@ -3,40 +3,28 @@
         <div class="announcement-track">
             <div class="announcement-content">
                 <span class="dot"></span>
-                <span>Level up your game</span>
+                <span>New courts available</span>
                 <span class="dot"></span>
-                <span>Level up your game</span>
+                <span>Beginner classes starting soon</span>
                 <span class="dot"></span>
-                <span>Level up your game</span>
+                <span>Book 2 hours, get 1 free</span>
                 <span class="dot"></span>
-                <span>Level up your game</span>
+                <span>Train with pro coaches</span>
                 <span class="dot"></span>
-                <span>Level up your game</span>
-                <span class="dot"></span>
-                <span>Level up your game</span>
-                <span class="dot"></span>
-                <span>Level up your game</span>
-                <span class="dot"></span>
-                <span>Level up your game</span>
+                <span>New gear in stock</span>
             </div>
             <!-- Duplicate for seamless looping -->
             <div class="announcement-content">
                 <span class="dot"></span>
-                <span>Level up your game</span>
+                <span>New courts available</span>
                 <span class="dot"></span>
-                <span>Level up your game</span>
+                <span>Beginner classes starting soon</span>
                 <span class="dot"></span>
-                <span>Level up your game</span>
+                <span>Book 2 hours, get 1 free</span>
                 <span class="dot"></span>
-                <span>Level up your game</span>
+                <span>Train with pro coaches</span>
                 <span class="dot"></span>
-                <span>Level up your game</span>
-                <span class="dot"></span>
-                <span>Level up your game</span>
-                <span class="dot"></span>
-                <span>Level up your game</span>
-                <span class="dot"></span>
-                <span>Level up your game</span>
+                <span>New gear in stock</span>
             </div>
         </div>
     </section>
