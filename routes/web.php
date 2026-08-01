@@ -2,29 +2,40 @@
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Frontdesk\AuthController as FrontdeskAuthController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 // ============================================
-// PUBLIC ROUTES
+// USER ROUTES (Public)
 // ============================================
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('User/Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
     ]);
 });
 
-// ============================================
-// USER AUTH ROUTES (Vue - from Breeze)
-// ============================================
-// These are already defined in routes/auth.php
+Route::get('/dashboard', function () {
+    return Inertia::render('User/Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 // ============================================
-// ADMIN ROUTES (Vue)
+// USER PROFILE ROUTES (Authenticated)
+// ============================================
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', function () {
+        return Inertia::render('User/Profile/Edit');
+    })->name('profile.edit');
+    
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// ============================================
+// ADMIN ROUTES
 // ============================================
 Route::prefix('admin')->name('admin.')->group(function () {
-    // Guest routes (not logged in)
     Route::get('/login', function () {
         return Inertia::render('Admin/Login');
     })->name('login');
@@ -32,7 +43,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post');
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
-    // Protected routes (logged in)
     Route::middleware('auth:admin')->group(function () {
         Route::get('/dashboard', function () {
             return Inertia::render('Admin/Dashboard');
@@ -41,10 +51,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 // ============================================
-// FRONTDESK ROUTES (Vue)
+// FRONTDESK ROUTES
 // ============================================
 Route::prefix('frontdesk')->name('frontdesk.')->group(function () {
-    // Guest routes (not logged in)
     Route::get('/login', function () {
         return Inertia::render('Frontdesk/Login');
     })->name('login');
@@ -52,7 +61,6 @@ Route::prefix('frontdesk')->name('frontdesk.')->group(function () {
     Route::post('/login', [FrontdeskAuthController::class, 'login'])->name('login.post');
     Route::post('/logout', [FrontdeskAuthController::class, 'logout'])->name('logout');
 
-    // Protected routes (logged in)
     Route::middleware('auth:frontdesk')->group(function () {
         Route::get('/dashboard', function () {
             return Inertia::render('Frontdesk/Dashboard');
