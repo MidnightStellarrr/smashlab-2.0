@@ -13,17 +13,16 @@
 
             <div class="right-content">
                 <p>
-                    Feel the rush of the game, the
-                    energy of the crowd, and the thrill
-                    of every smash.
+                    Your court is waiting. Book instantly, 
+                    play like a pro, and dominate the game.
                 </p>
 
                 <div class="buttons">
                     <Link href="/services" class="learn-btn">
-                        Learn more
+                        Explore Services
                     </Link>
                     <Link href="/book_now" class="book-btn">
-                        Book now
+                        Book Your Court
                     </Link>
                 </div>
             </div>
@@ -102,7 +101,7 @@ import Navbar from '@/Components/Home/Navbar.vue';
 .book-btn {
     text-decoration: none;
     padding: 0;
-    width: 135px;
+    width: 160px;
     height: 48px;
     border-radius: 40px;
     font-size: 16px;
