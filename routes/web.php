@@ -10,11 +10,8 @@ use Inertia\Inertia;
 // USER ROUTES (Public)
 // ============================================
 Route::get('/', function () {
-    return Inertia::render('User/Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-});
+    return Inertia::render('User/Welcome');
+})->name('home');
 
 Route::get('/dashboard', function () {
     return Inertia::render('User/Dashboard');
