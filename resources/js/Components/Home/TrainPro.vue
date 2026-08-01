@@ -3,8 +3,7 @@
         <div class="section-heading">
             <h2>Train Like a Pro</h2>
             <p>
-                Book your spot and start training with Smash Lab's certified coaches
-                today.
+                Join our community and train with certified coaches who care about your progress.
             </p>
         </div>
 

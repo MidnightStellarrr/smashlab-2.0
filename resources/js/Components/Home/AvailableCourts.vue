@@ -1,8 +1,8 @@
 <template>
     <section class="available-courts">
         <div class="section-title">
-            <h2>Available Courts</h2>
-            <p>Pick the perfect court for your game.</p>
+            <h2>Find Your Court</h2>
+            <p>See real-time availability and book instantly.</p>
         </div>
 
         <div class="booking-container">

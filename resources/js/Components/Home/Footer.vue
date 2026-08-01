@@ -5,9 +5,7 @@
             <div class="footer-brand">
                 <h2>Smash Lab</h2>
                 <p>
-                    Welcome to Smash Lab — where you
-                    can play badminton, hit the gym,
-                    or do both.
+                    Welcome to Smash Lab — where you can play badminton, train with certified coaches, and be part of a thriving community.
                 </p>
 
                 <div class="footer-socials">

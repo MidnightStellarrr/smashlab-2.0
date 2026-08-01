@@ -8,7 +8,7 @@
 
             <div class="stat-item">
                 <h3>10</h3>
-                <p>Pro Coaches</p>
+                <p>Certified Coaches</p>
             </div>
 
             <div class="stat-item">
@@ -18,7 +18,7 @@
 
             <div class="stat-item">
                 <h3>4.5</h3>
-                <p>Avg. Rating</p>
+                <p>Avg. Rating From Happy Players</p>
             </div>
         </div>
     </section>

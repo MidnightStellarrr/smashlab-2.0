@@ -24,12 +24,10 @@
             <div class="offer-card court-card">
                 <div class="card-overlay blue-overlay"></div>
                 <div class="card-content">
-                    <h3>Premium Courts</h3>
+                    <h3>Tournament-Grade Courts</h3>
                     <p>
-                        Well-maintained courts with professional
-                        flooring, tournament-grade dimensions,
-                        premium lighting, and real-time online
-                        booking for a seamless playing experience.
+                        Play on professional courts with premium
+                        lighting and real-time booking.
                     </p>
                 </div>
             </div>
@@ -37,10 +35,9 @@
             <div class="offer-card class-card">
                 <div class="card-overlay grey-overlay"></div>
                 <div class="card-content bottom">
-                    <h3>Pro Classes</h3>
+                    <h3>Certified Pro Coaches</h3>
                     <p>
-                        Learn from certified coaches — beginners to
-                        advanced.
+                        Learn from certified coaches — beginners to advanced.
                     </p>
                 </div>
             </div>
@@ -50,7 +47,7 @@
                 <div class="card-content bottom">
                     <h3>Gears and Snacks</h3>
                     <p>
-                        Gears and snacks available for purchase.
+                        From rackets to energy drinks, everything you need is here.
                     </p>
                 </div>
             </div>
@@ -60,8 +57,7 @@
                 <div class="card-content bottom">
                     <h3>Smart Booking</h3>
                     <p>
-                        Book, manage, and track everything from
-                        your dashboard.
+                        Book, manage, and track everything from your dashboard.
                     </p>
                 </div>
             </div>
