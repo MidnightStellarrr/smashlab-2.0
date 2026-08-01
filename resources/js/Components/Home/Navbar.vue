@@ -96,7 +96,7 @@ onMounted(() => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 50px; /* Consistent padding */
+    padding: 30px 80px; /* Consistent padding */
     background: transparent;
     /* Remove all transitions */
 }
