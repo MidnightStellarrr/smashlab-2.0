@@ -592,7 +592,7 @@ watch(() => booking.value.date, (newVal) => {
 
 .form-progress {
     display: flex;
-    align-items: center;
+    align-items: stretch; /* ← CHANGE from 'center' to 'stretch' */
     justify-content: space-between;
     margin: 0 auto;
     padding: 0 10px;
@@ -607,8 +607,10 @@ watch(() => booking.value.date, (newVal) => {
     gap: 6px;
     position: relative;
     flex: 1;
+    min-width: 0;
 }
 
+/* ── Fix: Make all step numbers the same size ── */
 .step-number {
     width: 32px;
     height: 32px;
@@ -622,6 +624,10 @@ watch(() => booking.value.date, (newVal) => {
     font-weight: 700;
     font-family: 'Poppins', sans-serif;
     transition: all 0.3s ease;
+    flex-shrink: 0;
+    /* ── FIX: Ensure exact circle ── */
+    line-height: 1;
+    margin: 0 auto;
 }
 
 .progress-step.active .step-number {
@@ -644,6 +650,12 @@ watch(() => booking.value.date, (newVal) => {
     transition: all 0.3s ease;
     max-width: 80px;
     line-height: 1.2;
+    word-break: break-word;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px; /* ← ADD THIS - ensures all labels have same height */
+    width: 100%;
 }
 
 .progress-step.active .step-label {
@@ -656,9 +668,11 @@ watch(() => booking.value.date, (newVal) => {
     height: 2px;
     background: #e8eaed;
     margin: 0 4px;
-    margin-bottom: 24px;
+    margin-bottom: 24px; /* ← This aligns with the step-number */
     transition: all 0.3s ease;
     min-width: 20px;
+    align-self: center; /* ← ADD THIS */
+    margin-top: -4px; /* ← ADD THIS - fine-tune vertical alignment */
 }
 
 .progress-line.active {
