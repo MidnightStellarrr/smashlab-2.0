@@ -21,6 +21,10 @@ Route::get('/book_now', function () {
     return Inertia::render('User/book_now');
 })->name('book.now');
 
+Route::get('/classes', function () {
+    return Inertia::render('User/classes');
+})->name('classes');
+
 // ============================================
 // USER PROFILE ROUTES (Authenticated)
 // ============================================
