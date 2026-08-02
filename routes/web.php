@@ -17,6 +17,10 @@ Route::get('/dashboard', function () {
     return Inertia::render('User/Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/book_now', function () {
+    return Inertia::render('User/book_now');
+})->name('book.now');
+
 // ============================================
 // USER PROFILE ROUTES (Authenticated)
 // ============================================

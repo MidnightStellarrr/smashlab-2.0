@@ -1,21 +1,18 @@
 <template>
-    <header class="hero">
+    <header class="hero" :style="heroStyle">
         <div class="overlay"></div>
 
         <!-- Navigation -->
         <Navbar />
 
         <!-- Hero Content -->
-        <div class="hero-content">
+        <div class="hero-content" :class="{ 'centered': centered }">
             <div class="left-content">
-                <h1>Let the Smashing <br />Begin</h1>
+                <h1 v-html="mainHeading"></h1>
             </div>
 
-            <div class="right-content">
-                <p>
-                    Your court is waiting. Book instantly, 
-                    play like a pro, and dominate the game.
-                </p>
+            <div class="right-content" v-if="!centered">
+                <p>{{ subHeading }}</p>
 
                 <div class="buttons">
                     <Link href="/services" class="learn-btn">
@@ -26,6 +23,11 @@
                     </Link>
                 </div>
             </div>
+
+            <!-- Centered content for inner pages -->
+            <div class="centered-content" v-if="centered">
+                <p>{{ subHeading }}</p>
+            </div>
         </div>
     </header>
 </template>
@@ -33,14 +35,44 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import Navbar from '@/Components/Home/Navbar.vue';
+import { computed } from 'vue';
+
+const props = defineProps({
+    mainHeading: {
+        type: String,
+        default: 'Let the Smashing <br />Begin'
+    },
+    subHeading: {
+        type: String,
+        default: 'Your court is waiting. Book instantly, play like a pro, and dominate the game.'
+    },
+    bgImage: {
+        type: String,
+        default: '/images/homepage_header.png'
+    },
+    height: {
+        type: String,
+        default: '100vh'
+    },
+    centered: {
+        type: Boolean,
+        default: false
+    }
+});
+
+const heroStyle = computed(() => ({
+    backgroundImage: `url(${props.bgImage})`,
+    height: props.height
+}));
 </script>
 
 <style scoped>
 .hero {
     position: relative;
     width: 100%;
-    height: 100vh;
-    background: url("/images/homepage_header.png") center center/cover no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     overflow: hidden;
 }
 
@@ -57,12 +89,33 @@ import Navbar from '@/Components/Home/Navbar.vue';
 .hero-content {
     position: relative;
     z-index: 2;
-    height: calc(100vh - 130px);
+    height: calc(100% - 130px);
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     margin-top: 130px;
     padding: 0 110px 110px;
+}
+
+/* Centered layout for inner pages */
+.hero-content.centered {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 0 110px 80px;
+}
+
+.centered-content {
+    max-width: 800px;
+}
+
+.centered-content p {
+    color: white;
+    font-size: 20px;
+    line-height: 1.6;
+    margin-top: 10px;
+    font-weight: 400;
 }
 
 .left-content h1 {
@@ -101,7 +154,7 @@ import Navbar from '@/Components/Home/Navbar.vue';
 .book-btn {
     text-decoration: none;
     padding: 0;
-    width: 160px;
+    width: 135px;
     height: 48px;
     border-radius: 40px;
     font-size: 16px;
@@ -147,6 +200,10 @@ import Navbar from '@/Components/Home/Navbar.vue';
         align-items: center;
         text-align: center;
         gap: 40px;
+        padding: 0 40px 60px;
+    }
+    .hero-content.centered {
+        padding: 0 40px 40px;
     }
     .left-content h1 { font-size: 58px; }
     .right-content {
@@ -158,5 +215,13 @@ import Navbar from '@/Components/Home/Navbar.vue';
         margin-left: 0;
     }
     .buttons { justify-content: center; }
+    .centered-content p { font-size: 18px; }
+}
+
+@media (max-width: 480px) {
+    .hero-content.centered {
+        padding: 0 20px 40px;
+    }
+    .centered-content p { font-size: 16px; }
 }
 </style>
