@@ -154,7 +154,7 @@ const heroStyle = computed(() => ({
 .book-btn {
     text-decoration: none;
     padding: 0;
-    width: 135px;
+    width: 155px;
     height: 48px;
     border-radius: 40px;
     font-size: 16px;
