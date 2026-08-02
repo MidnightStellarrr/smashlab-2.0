@@ -368,7 +368,7 @@ const validateDate = () => {
     today.setHours(0, 0, 0, 0);
     
     if (selected < today) {
-        dateError.value = '⚠️ You cannot select a past date. Please choose today or a future date.';
+        dateError.value = 'You cannot select a past date. Please choose today or a future date.';
         return false;
     }
     
@@ -1434,31 +1434,44 @@ watch(() => booking.value.date, (newVal) => {
         border-radius: 14px;
     }
 
+    /* ── PROGRESS FIX FOR MOBILE ── */
+    .progress-wrapper {
+        padding: 20px 5% 10px;
+        overflow-x: auto;
+    }
+
     .form-progress {
-        flex-wrap: wrap;
-        gap: 8px;
-        justify-content: center;
-        max-width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+        min-width: 100%;
+        padding: 0 4px;
     }
 
     .progress-step {
-        flex-direction: row;
-        gap: 8px;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+        min-width: 0;
     }
 
-    .progress-line {
-        display: none;
-    }
-
-    .step-number {
+    .progress-step .step-number {
         width: 28px;
         height: 28px;
         font-size: 11px;
+        flex-shrink: 0;
     }
 
-    .step-label {
-        font-size: 10px;
+    .progress-step .step-label {
+        font-size: 9px;
         max-width: 100%;
+        min-height: 20px;
+        line-height: 1.1;
+    }
+
+    .progress-line {
+        display: none; /* Hide lines on mobile to save space */
     }
 
     .form-header h2 {
@@ -1523,22 +1536,44 @@ watch(() => booking.value.date, (newVal) => {
         padding: 2px 8px;
     }
 
+    /* ── PROGRESS FIX FOR SMALL PHONES ── */
+    .progress-wrapper {
+        padding: 16px 3% 10px;
+        overflow-x: auto;
+    }
+
     .form-progress {
-        flex-direction: column;
-        gap: 6px;
-        align-items: flex-start;
-        padding: 0;
+        gap: 4px;
+        min-width: 100%;
     }
 
     .progress-step {
-        flex-direction: row;
-        gap: 10px;
-        width: 100%;
+        flex-direction: column;
+        gap: 3px;
+        flex: 1;
+        min-width: 0;
     }
 
-    .step-label {
-        font-size: 13px;
+    .progress-step .step-number {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+        flex-shrink: 0;
+    }
+
+    .progress-step .step-label {
+        font-size: 8px;
         max-width: 100%;
+        min-height: 18px;
+        line-height: 1;
+    }
+
+    .progress-step .step-label br {
+        display: none;
+    }
+
+    .progress-line {
+        display: none;
     }
 
     .form-header h2 {
@@ -1557,6 +1592,34 @@ watch(() => booking.value.date, (newVal) => {
 
     .confirmation-content h2 {
         font-size: 22px;
+    }
+}
+
+/* ── EXTRA SMALL PHONES (380px and below) ── */
+@media (max-width: 380px) {
+    .progress-wrapper {
+        padding: 12px 2% 8px;
+        overflow-x: auto;
+    }
+
+    .form-progress {
+        gap: 2px;
+        min-width: 100%;
+    }
+
+    .progress-step .step-number {
+        width: 20px;
+        height: 20px;
+        font-size: 8px;
+    }
+
+    .progress-step .step-label {
+        font-size: 7px;
+        min-height: 16px;
+    }
+
+    .progress-step .step-label br {
+        display: none;
     }
 }
 
