@@ -1,11 +1,20 @@
 <template>
     <nav class="navbar" ref="navbar">
-        <div class="nav-left">
+        <div class="nav-container">
+            <!-- Hamburger Button - LEFT SIDE -->
+            <button @click="toggleMenu" class="hamburger-btn" aria-label="Toggle menu">
+                <span class="hamburger-line" :class="{ active: isMenuOpen }"></span>
+                <span class="hamburger-line" :class="{ active: isMenuOpen }"></span>
+                <span class="hamburger-line" :class="{ active: isMenuOpen }"></span>
+            </button>
+
+            <!-- Logo -->
             <Link href="/" class="logo-link">
                 <img src="/images/logo.png" class="logo" alt="Logo" />
             </Link>
 
-            <ul class="nav-links">
+            <!-- Desktop Nav Links - LEFT ALIGNED -->
+            <ul class="nav-links desktop">
                 <li><Link href="/">Home</Link></li>
                 <li><Link href="/book_now">Book Now</Link></li>
                 <li><Link href="/classes">Classes</Link></li>
@@ -13,57 +22,116 @@
                 <li><Link href="/about_us">About Us</Link></li>
                 <li><Link href="/contact">Contact</Link></li>
             </ul>
+
+            <!-- Desktop Nav Right -->
+            <div class="nav-right desktop">
+                <button @click="toggleDarkMode" class="theme-btn" aria-label="Toggle dark mode">
+                    <i :class="isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"></i>
+                </button>
+
+                <template v-if="$page.props.auth.user">
+                    <Link href="/cart" class="cart-btn">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="cart-count">0</span>
+                    </Link>
+                    
+                    <Link :href="route('dashboard')" class="dashboard-btn">
+                        <i class="fa-solid fa-user"></i>
+                    </Link>
+                    
+                    <button @click="logout" class="logout-btn">
+                        <i class="fa-solid fa-sign-out-alt"></i> Logout
+                    </button>
+                </template>
+
+                <template v-else>
+                    <Link :href="route('login')" class="login-btn">Login</Link>
+                    <Link :href="route('register')" class="signup-btn">Sign up</Link>
+                </template>
+            </div>
         </div>
 
-        <div class="nav-right">
-            <!-- Dark Mode Toggle -->
-            <button @click="toggleDarkMode" class="theme-btn" aria-label="Toggle dark mode">
-                <i :class="isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"></i>
-            </button>
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" :class="{ open: isMenuOpen }" @click="closeMenu"></div>
 
-            <template v-if="$page.props.auth.user">
-                <Link href="/cart" class="cart-btn">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="cart-count">0</span>
-                </Link>
-                
-                <Link :href="route('dashboard')" class="dashboard-btn">
-                    <i class="fa-solid fa-user"></i>
-                </Link>
-                
-                <button @click="logout" class="logout-btn">
-                    <i class="fa-solid fa-sign-out-alt"></i> Logout
+        <!-- Mobile Menu Content - LEFT SIDE -->
+        <div class="mobile-menu" :class="{ open: isMenuOpen }">
+            <ul class="mobile-nav-links">
+                <li><Link href="/" @click="closeMenu">Home</Link></li>
+                <li><Link href="/book_now" @click="closeMenu">Book Now</Link></li>
+                <li><Link href="/classes" @click="closeMenu">Classes</Link></li>
+                <li><Link href="/shop" @click="closeMenu">Shop</Link></li>
+                <li><Link href="/about_us" @click="closeMenu">About Us</Link></li>
+                <li><Link href="/contact" @click="closeMenu">Contact</Link></li>
+            </ul>
+
+            <div class="mobile-nav-right">
+                <!-- Dark Mode Toggle -->
+                <button @click="toggleDarkMode" class="theme-btn mobile" aria-label="Toggle dark mode">
+                    <i :class="isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon'"></i>
                 </button>
-            </template>
 
-            <template v-else>
-                <Link :href="route('login')" class="login-btn">Login</Link>
-                <Link :href="route('register')" class="signup-btn">Sign up</Link>
-            </template>
+                <template v-if="$page.props.auth.user">
+                    <Link href="/cart" class="cart-btn mobile" @click="closeMenu">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="cart-count">0</span>
+                    </Link>
+                    
+                    <Link :href="route('dashboard')" class="dashboard-btn mobile" @click="closeMenu">
+                        <i class="fa-solid fa-user"></i>
+                    </Link>
+                    
+                    <button @click="logout" class="logout-btn mobile">
+                        <i class="fa-solid fa-sign-out-alt"></i> Logout
+                    </button>
+                </template>
+
+                <template v-else>
+                    <Link :href="route('login')" class="login-btn mobile" @click="closeMenu">Login</Link>
+                    <Link :href="route('register')" class="signup-btn mobile" @click="closeMenu">Sign up</Link>
+                </template>
+            </div>
         </div>
     </nav>
 </template>
 
 <script setup>
 import { Link, router } from '@inertiajs/vue3';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const navbar = ref(null);
 const isDark = ref(false);
+const isMenuOpen = ref(false);
 
-// Dark Mode
+// ── Toggle Menu ──
+const toggleMenu = () => {
+    isMenuOpen.value = !isMenuOpen.value;
+    if (isMenuOpen.value) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
+};
+
+const closeMenu = () => {
+    isMenuOpen.value = false;
+    document.body.style.overflow = '';
+};
+
+// ── Dark Mode ──
 const toggleDarkMode = () => {
     isDark.value = !isDark.value;
     document.documentElement.classList.toggle('dark');
     localStorage.setItem('smashlab-theme', isDark.value ? 'dark' : 'light');
 };
 
-// Logout
+// ── Logout ──
 const logout = () => {
     router.post(route('logout'));
+    closeMenu();
 };
 
-// Scroll behavior - just add scrolled class for background
+// ── Scroll behavior ──
 const handleScroll = () => {
     const nav = navbar.value;
     if (window.scrollY > 50) {
@@ -73,8 +141,14 @@ const handleScroll = () => {
     }
 };
 
+// ── Close menu on resize to desktop ──
+const handleResize = () => {
+    if (window.innerWidth > 992 && isMenuOpen.value) {
+        closeMenu();
+    }
+};
+
 onMounted(() => {
-    // Dark mode init
     const storedTheme = localStorage.getItem('smashlab-theme');
     if (storedTheme === 'dark') {
         isDark.value = true;
@@ -82,7 +156,13 @@ onMounted(() => {
     }
 
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
     handleScroll();
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', handleScroll);
+    window.removeEventListener('resize', handleResize);
 });
 </script>
 
@@ -93,33 +173,58 @@ onMounted(() => {
     left: 0;
     width: 100%;
     z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 30px 80px; /* Consistent padding */
     background: transparent;
-    /* Remove all transitions */
+    padding: 30px 80px;
+    transition: all 0.3s ease;
 }
 
-/* Scrolled state - only changes background, NOT padding */
-.navbar.scrolled {
-    background: rgba(10, 22, 40, 0.85);
-    backdrop-filter: blur(16px);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-/* Dark Mode Scrolled State */
-:global(.dark) .navbar.scrolled {
-    background: rgba(10, 22, 40, 0.92);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.nav-left {
+.nav-container {
     display: flex;
     align-items: center;
-    gap: 45px;
+    width: 100%;
+    gap: 20px;
+}
+
+/* ── Hamburger Button - LEFT ── */
+.hamburger-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+    flex-shrink: 0;
+}
+
+.hamburger-line {
+    width: 100%;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+.hamburger-line.active:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.hamburger-line.active:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.hamburger-line.active:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* ── Logo ── */
+.logo-link {
+    flex-shrink: 0;
 }
 
 .logo {
@@ -127,18 +232,19 @@ onMounted(() => {
     width: 46px;
     height: 46px;
     object-fit: contain;
-    /* Remove logo size transition */
 }
 
-.nav-links {
+/* ── Desktop Nav Links - LEFT ALIGNED ── */
+.nav-links.desktop {
     display: flex;
     list-style: none;
-    gap: 42px;
+    gap: 32px;
     padding: 0;
     margin: 0;
+    flex: 1;
 }
 
-.nav-links a {
+.nav-links.desktop a {
     text-decoration: none;
     color: white;
     font-size: 16px;
@@ -148,7 +254,7 @@ onMounted(() => {
     padding-bottom: 4px;
 }
 
-.nav-links a::after {
+.nav-links.desktop a::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -159,16 +265,148 @@ onMounted(() => {
     transition: width 0.3s ease;
 }
 
-.nav-links a:hover::after {
+.nav-links.desktop a:hover::after {
     width: 100%;
 }
 
-.nav-right {
+/* ── Desktop Nav Right ── */
+.nav-right.desktop {
     display: flex;
     align-items: center;
     gap: 20px;
+    flex-shrink: 0;
 }
 
+/* ── Scrolled state ── */
+.navbar.scrolled {
+    background: rgba(10, 22, 40, 0.85);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+}
+
+:global(.dark) .navbar.scrolled {
+    background: rgba(10, 22, 40, 0.92);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Mobile Menu Overlay ── */
+.mobile-menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.mobile-menu-overlay.open {
+    display: block;
+}
+
+/* ── Mobile Menu - LEFT SIDE ── */
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    max-width: 340px;
+    height: 100vh;
+    background: #0a1628;
+    padding: 80px 30px 40px;
+    z-index: 1000;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 30px;
+}
+
+.mobile-menu.open {
+    left: 0;
+    display: flex;
+}
+
+:global(.dark) .mobile-menu {
+    background: #111827;
+}
+
+.mobile-nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mobile-nav-links li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.mobile-nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 12px 0;
+    display: block;
+}
+
+.mobile-nav-links a:hover {
+    color: #4a7a9c;
+}
+
+:global(.dark) .mobile-nav-links a {
+    color: #d1d5db;
+}
+
+:global(.dark) .mobile-nav-links a:hover {
+    color: #6a9abc;
+}
+
+.mobile-nav-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+.mobile-nav-right .theme-btn.mobile,
+.mobile-nav-right .cart-btn.mobile,
+.mobile-nav-right .dashboard-btn.mobile {
+    width: 100%;
+    height: 48px;
+    justify-content: center;
+    gap: 12px;
+    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.06);
+    color: white;
+    font-size: 16px;
+}
+
+.mobile-nav-right .login-btn.mobile,
+.mobile-nav-right .signup-btn.mobile,
+.mobile-nav-right .logout-btn.mobile {
+    width: 100%;
+    justify-content: center;
+    height: 48px;
+    font-size: 16px;
+}
+
+.mobile-nav-right .login-btn.mobile {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+:global(.dark) .mobile-nav-right .theme-btn.mobile,
+:global(.dark) .mobile-nav-right .cart-btn.mobile,
+:global(.dark) .mobile-nav-right .dashboard-btn.mobile {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+/* ── Theme Button ── */
 .theme-btn {
     width: 45px;
     height: 45px;
@@ -190,6 +428,7 @@ onMounted(() => {
     transform: rotate(30deg) scale(1.05);
 }
 
+/* ── Buttons ── */
 .login-btn,
 .signup-btn {
     display: inline-flex;
@@ -229,6 +468,7 @@ onMounted(() => {
 
 .signup-btn:hover {
     background: #2a5ae8;
+    color: white;
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(31, 71, 216, 0.35);
 }
@@ -310,12 +550,12 @@ onMounted(() => {
     transform: translateY(-3px);
 }
 
-/* Scrolled state color changes (no padding changes) */
-.navbar.scrolled .nav-links a {
+/* ── Scrolled state colors ── */
+.navbar.scrolled .nav-links.desktop a {
     color: #ffffff;
 }
 
-.navbar.scrolled .nav-links a::after {
+.navbar.scrolled .nav-links.desktop a::after {
     background: #ffffff;
 }
 
@@ -345,8 +585,7 @@ onMounted(() => {
 
 .navbar.scrolled .signup-btn:hover {
     background: #2a5ae8;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(31, 71, 216, 0.35);
+    color: white;
 }
 
 .navbar.scrolled .cart-btn {
@@ -370,7 +609,6 @@ onMounted(() => {
 .navbar.scrolled .logout-btn {
     background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
-    backdrop-filter: blur(4px);
 }
 
 .navbar.scrolled .logout-btn:hover {
@@ -378,12 +616,12 @@ onMounted(() => {
     color: #ffffff;
 }
 
-/* Dark Mode */
-:global(.dark) .nav-links a {
+/* ── Dark Mode ── */
+:global(.dark) .nav-links.desktop a {
     color: #d1d5db;
 }
 
-:global(.dark) .nav-links a:hover {
+:global(.dark) .nav-links.desktop a:hover {
     color: #ffffff;
 }
 
@@ -454,122 +692,84 @@ onMounted(() => {
     background: #2a5ae8;
 }
 
-/* Responsive */
+/* ── Hamburger dark mode ── */
+:global(.dark) .hamburger-line {
+    background: #d1d5db;
+}
+
+:global(.dark) .hamburger-line.active {
+    background: #d1d5db;
+}
+
+/* ── Responsive ── */
 @media (max-width: 1200px) {
     .navbar { padding: 20px 40px; }
-    .nav-links { gap: 24px; }
-    .nav-links a { font-size: 15px; }
+    .nav-links.desktop { gap: 24px; }
+    .nav-links.desktop a { font-size: 15px; }
 }
 
 @media (max-width: 992px) {
     .navbar {
-        flex-direction: column;
-        gap: 20px;
-        padding: 20px 30px;
+        padding: 16px 20px;
     }
-    .nav-left {
-        flex-direction: column;
-        gap: 20px;
-        width: 100%;
+
+    .hamburger-btn {
+        display: flex;
     }
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 16px 24px;
+
+    .nav-links.desktop {
+        display: none !important;
     }
-    .nav-links a { font-size: 14px; }
-    .login-btn, .signup-btn {
-        min-width: 100px;
-        height: 42px;
-        font-size: 14px;
-        padding: 0 18px;
+
+    .nav-right.desktop {
+        display: none !important;
     }
-    .cart-btn, .dashboard-btn {
-        width: 42px;
-        height: 42px;
-        font-size: 18px;
+
+    .mobile-menu {
+        display: none;
     }
-    .logout-btn { padding: 8px 16px; font-size: 13px; }
+
+    .mobile-menu.open {
+        display: flex;
+    }
+
+    .nav-container {
+        gap: 16px;
+    }
 }
 
 @media (max-width: 576px) {
     .navbar {
-        padding: 16px 16px;
-        gap: 16px;
+        padding: 12px 16px;
     }
-    .nav-left { gap: 16px; }
-    .nav-links { gap: 12px 16px; }
-    .nav-links a { font-size: 13px; }
-    .nav-links a::after { display: none; }
-    .nav-right {
-        gap: 12px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .login-btn, .signup-btn {
-        min-width: 80px;
-        height: 38px;
-        font-size: 13px;
-        padding: 0 14px;
-    }
-    .login-btn { border-width: 1.5px; }
-    .theme-btn {
-        width: 38px;
-        height: 38px;
-        font-size: 16px;
-    }
-    .logo { width: 38px; height: 38px; }
-    .cart-btn, .dashboard-btn {
-        width: 38px;
-        height: 38px;
-        font-size: 16px;
-    }
-    .cart-count {
-        font-size: 10px;
-        min-width: 18px;
-        height: 18px;
-        top: -3px;
-        right: -3px;
-    }
-    .logout-btn {
-        padding: 8px 14px;
-        font-size: 12px;
-    }
-    .logout-btn i { font-size: 12px; }
-}
 
-@media (max-width: 380px) {
-    .navbar { padding: 12px 12px; }
-    .nav-links { gap: 8px 12px; }
-    .nav-links a { font-size: 12px; }
-    .login-btn, .signup-btn {
-        min-width: 70px;
-        height: 34px;
-        font-size: 12px;
-        padding: 0 10px;
+    .logo {
+        width: 38px;
+        height: 38px;
     }
-    .theme-btn {
-        width: 34px;
-        height: 34px;
-        font-size: 14px;
+
+    .mobile-menu {
+        width: 85%;
+        max-width: 300px;
+        padding: 70px 20px 30px;
     }
-    .logo { width: 34px; height: 34px; }
-    .cart-btn, .dashboard-btn {
-        width: 34px;
-        height: 34px;
-        font-size: 14px;
+
+    .mobile-nav-links a {
+        font-size: 18px;
     }
-    .cart-count {
-        font-size: 9px;
-        min-width: 16px;
-        height: 16px;
-        top: -2px;
-        right: -2px;
+
+    .mobile-nav-right .theme-btn.mobile,
+    .mobile-nav-right .cart-btn.mobile,
+    .mobile-nav-right .dashboard-btn.mobile {
+        height: 44px;
+        font-size: 15px;
     }
-    .logout-btn {
-        padding: 6px 10px;
-        font-size: 11px;
+
+    .mobile-nav-right .login-btn.mobile,
+    .mobile-nav-right .signup-btn.mobile,
+    .mobile-nav-right .logout-btn.mobile {
+        height: 44px;
+        font-size: 15px;
     }
-    .logout-btn i { font-size: 11px; }
 }
 </style>
