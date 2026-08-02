@@ -228,8 +228,9 @@ onMounted(() => {
 }
 
 .signup-btn:hover {
-    background: #f0f0f0;
+    background: #2a5ae8;
     transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(31, 71, 216, 0.35);
 }
 
 .cart-btn {
@@ -338,8 +339,8 @@ onMounted(() => {
 }
 
 .navbar.scrolled .signup-btn {
-    background: #1f47d8;
-    color: #ffffff;
+    background: white;
+    color: #173A8D;
 }
 
 .navbar.scrolled .signup-btn:hover {
