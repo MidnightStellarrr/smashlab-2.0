@@ -113,10 +113,40 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Duration (hours)</label>
+                            <select class="form-input" v-model="booking.duration">
+                                <option value="1">1 hour</option>
+                                <option value="2" selected>2 hours</option>
+                                <option value="3">3 hours</option>
+                                <option value="4">4 hours</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label>Number of Players</label>
                             <select id="playerCount" class="form-input" v-model="booking.players">
                                 <option v-for="n in 8" :key="n" :value="n">{{ n }} {{ n === 1 ? 'Player' : 'Players' }}</option>
                             </select>
+                        </div>
+
+                        <div class="price-breakdown">
+                            <h4>Price Breakdown</h4>
+                            <div class="price-row">
+                                <span>Court Fee ({{ booking.duration }} hour{{ booking.duration > 1 ? 's' : '' }})</span>
+                                <span>₱{{ (courtPrice * booking.duration).toFixed(2) }}</span>
+                            </div>
+                            <div class="price-row">
+                                <span>Players ({{ booking.players }})</span>
+                                <span>₱{{ (booking.players * 0).toFixed(2) }}</span>
+                            </div>
+                            <div v-if="discount > 0" class="price-row discount">
+                                <span>Discount ({{ discount }}%)</span>
+                                <span>-₱{{ discountAmount.toFixed(2) }}</span>
+                            </div>
+                            <div class="price-row total">
+                                <span>Total</span>
+                                <span>₱{{ totalPrice.toFixed(2) }}</span>
+                            </div>
                         </div>
 
                         <div class="form-actions">
@@ -151,8 +181,16 @@
                                 <span>{{ booking.court ? `Court ${booking.court}` : 'Any Court' }}</span>
                             </div>
                             <div class="summary-row">
+                                <span>Duration:</span>
+                                <span>{{ booking.duration }} hour{{ booking.duration > 1 ? 's' : '' }}</span>
+                            </div>
+                            <div class="summary-row">
                                 <span>Players:</span>
                                 <span>{{ booking.players }} {{ booking.players === 1 ? 'Player' : 'Players' }}</span>
+                            </div>
+                            <div v-if="discount > 0" class="summary-row discount">
+                                <span>Discount ({{ discount }}%):</span>
+                                <span>-₱{{ discountAmount.toFixed(2) }}</span>
                             </div>
                             <div class="summary-row total">
                                 <span>Total:</span>
@@ -172,7 +210,7 @@
                                 <i class="fa-solid fa-arrow-left"></i> Back
                             </button>
                             <button type="button" class="btn-next" @click="nextStep(3)">
-                                Confirm Booking <i class="fa-solid fa-check"></i>
+                                Confirm Booking <i class="fa-solid fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>
@@ -207,6 +245,23 @@
                                     <span>Total Paid:</span>
                                     <strong>₱{{ totalPrice.toFixed(2) }}</strong>
                                 </div>
+                            </div>
+
+                            <!-- Location & Contact Info -->
+                            <div class="location-info">
+                                <h4>Check-in Instructions</h4>
+                                <ul>
+                                    <li>Present your booking reference at the front desk</li>
+                                    <li>Bring your own racket or rent one at the shop</li>
+                                    <li>Wear proper sports attire and non-marking shoes</li>
+                                </ul>
+
+                                <h4>Cancellation Policy</h4>
+                                <ul>
+                                    <li><strong>Free cancellation</strong> up to 2 hours before booking</li>
+                                    <li>50% charge for cancellations within 2 hours</li>
+                                    <li>No refund for no-shows</li>
+                                </ul>
                             </div>
 
                             <p class="confirmation-note">
@@ -250,6 +305,7 @@ const booking = ref({
     time: '',
     court: '',
     players: 2,
+    duration: 2,  // ← ADD THIS
     payment: 'gcash'
 });
 
@@ -378,12 +434,29 @@ const futureTimeSlots = [
     { time: '10:00 PM', court1: { class: 'available', label: 'Available' }, court2: { class: 'available', label: 'Available' }, court3: { class: 'available', label: 'Available' }, court4: { class: 'available', label: 'Available' } }
 ];
 
+// ── Pricing ──
+const courtPrice = 200; // ₱200 per hour
+const discount = ref(0);
+const discountAmount = computed(() => {
+    const baseTotal = courtPrice * booking.value.duration;
+    return (baseTotal * discount.value) / 100;
+});
+
 // ── Total Price ──
 const totalPrice = computed(() => {
-    let basePrice = 200;
-    if (booking.value.players > 4) basePrice += 50;
-    return basePrice;
+    const baseTotal = courtPrice * booking.value.duration;
+    // Discount for 4+ players
+    if (booking.value.players >= 4) {
+        discount.value = 10; // 10% discount for groups
+    } else if (booking.value.duration >= 3) {
+        discount.value = 5; // 5% discount for long bookings
+    } else {
+        discount.value = 0;
+    }
+    return baseTotal - discountAmount.value;
 });
+
+
 
 // ── Filtered Time Slots based on selected date ──
 const filteredTimeSlots = computed(() => {
@@ -1471,5 +1544,180 @@ watch(() => booking.value.date, (newVal) => {
     .confirmation-content h2 {
         font-size: 22px;
     }
+}
+
+/* ============================================
+   PRICE BREAKDOWN
+   ============================================ */
+.price-breakdown {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 20px 0;
+}
+
+.price-breakdown h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 14px;
+    color: #555;
+    border-bottom: 1px solid #e8eaed;
+}
+
+.price-row:last-child {
+    border-bottom: none;
+}
+
+.price-row.discount {
+    color: #22c55e;
+}
+
+.price-row.total {
+    font-weight: 700;
+    font-size: 16px;
+    padding-top: 10px;
+    border-top: 2px solid #173A8D;
+    margin-top: 4px;
+}
+
+.price-row.total span:last-child {
+    color: #173A8D;
+}
+
+/* ============================================
+   LOCATION INFO
+   ============================================ */
+.location-info {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: left;
+    margin: 16px 0 20px;
+}
+
+.location-info h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    margin: 16px 0 8px;
+}
+
+.location-info h4:first-child {
+    margin-top: 0;
+}
+
+.location-info p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.location-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.location-info ul li {
+    font-size: 14px;
+    color: #555;
+    padding: 4px 0;
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.5;
+}
+
+.location-info ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #173A8D;
+    font-weight: 700;
+}
+
+.location-summary {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+}
+
+.location-summary h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.location-summary p {
+    font-size: 14px;
+    color: #555;
+    margin: 2px 0;
+}
+
+/* Dark Mode */
+:global(.dark) .price-breakdown {
+    background: #0a1628;
+}
+
+:global(.dark) .price-breakdown h4 {
+    color: #d1d5db;
+}
+
+:global(.dark) .price-row {
+    color: #9ca3af;
+    border-color: #2a3a5a;
+}
+
+:global(.dark) .price-row.total {
+    border-color: #1f47d8;
+}
+
+:global(.dark) .price-row.total span:last-child {
+    color: #4a7a9c;
+}
+
+:global(.dark) .location-info {
+    background: #0a1628;
+}
+
+:global(.dark) .location-info h4 {
+    color: #d1d5db;
+}
+
+:global(.dark) .location-info p {
+    color: #9ca3af;
+}
+
+:global(.dark) .location-info ul li {
+    color: #9ca3af;
+}
+
+:global(.dark) .location-info ul li::before {
+    color: #4a7a9c;
+}
+
+:global(.dark) .location-summary {
+    background: #0a1628;
+}
+
+:global(.dark) .location-summary h4 {
+    color: #d1d5db;
+}
+
+:global(.dark) .location-summary p {
+    color: #9ca3af;
+}
+
+:global(.dark) .summary-row.discount {
+    color: #34d399;
 }
 </style>
