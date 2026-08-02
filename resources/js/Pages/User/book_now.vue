@@ -26,8 +26,16 @@
                 <!-- LEFT: Schedule Card -->
                 <div class="schedule-card">
                     <div class="schedule-date">
-                        <i class="fa-regular fa-calendar"></i>
+                        <i class="fa-regular fa-calendar" @click="openDatePicker"></i>
                         <span>{{ formattedDate }}</span>
+                        <input 
+                            type="date" 
+                            ref="datePickerInput"
+                            class="hidden-date-input"
+                            v-model="booking.date"
+                            :min="today"
+                            @change="updateDateFromPicker"
+                        >
                     </div>
 
                     <div class="schedule-table-wrapper">
@@ -39,7 +47,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="slot in timeSlots" :key="slot.time">
+                                <tr v-for="slot in filteredTimeSlots" :key="slot.time">
                                     <td>{{ slot.time }}</td>
                                     <td v-for="court in 4" :key="court">
                                         <span :class="slot[`court${court}`].class">{{ slot[`court${court}`].label }}</span>
@@ -69,6 +77,7 @@
                         <div class="form-group">
                             <label for="bookingDate">Date</label>
                             <input type="date" id="bookingDate" class="form-input" v-model="booking.date" :min="today">
+                            <span v-if="dateError" class="error-message">{{ dateError }}</span>
                         </div>
 
                         <div class="form-group">
@@ -79,6 +88,7 @@
                                     {{ time.label }}
                                 </option>
                             </select>
+                            <span v-if="timeError" class="error-message">{{ timeError }}</span>
                         </div>
 
                         <button type="button" class="btn-next" @click="nextStep(1)">
@@ -219,7 +229,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import HeroSection from '@/Components/Home/HeroSection.vue';
 import Footer from '@/Components/Home/Footer.vue';
@@ -250,10 +260,65 @@ const today = computed(() => {
 });
 
 // ── Formatted Date ──
-const formattedDate = computed(() => {
-    const d = new Date();
-    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-});
+const formattedDate = ref(new Date().toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+}));
+
+// ── Error refs (MUST be defined BEFORE validateDate) ──
+const dateError = ref('');
+const timeError = ref('');
+
+// ── Reference for date picker ──
+const datePickerInput = ref(null);
+
+// ── Open date picker ──
+const openDatePicker = () => {
+    if (datePickerInput.value) {
+        datePickerInput.value.showPicker();
+    }
+};
+
+// ── Update date from picker ──
+const updateDateFromPicker = () => {
+    if (booking.value.date) {
+        // Update formatted date display
+        const d = new Date(booking.value.date);
+        formattedDate.value = d.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        
+        // Reset time when date changes
+        booking.value.time = '';
+        timeError.value = '';
+        
+        // Check if selected date is past
+        validateDate();
+    }
+};
+
+// ── Date Validation ──
+const validateDate = () => {
+    if (!booking.value.date) {
+        dateError.value = 'Please select a date.';
+        return false;
+    }
+    
+    const selected = new Date(booking.value.date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (selected < today) {
+        dateError.value = '⚠️ You cannot select a past date. Please choose today or a future date.';
+        return false;
+    }
+    
+    dateError.value = '';
+    return true;
+};
 
 // ── Time Options ──
 const timeOptions = [
@@ -296,11 +361,62 @@ const timeSlots = [
     { time: '10:00 PM', court1: { class: 'available', label: 'Available' }, court2: { class: 'reserved', label: 'Reserved' }, court3: { class: 'available', label: 'Available' }, court4: { class: 'available', label: 'Available' } }
 ];
 
+// ── Future Date Availability (different from current) ──
+const futureTimeSlots = [
+    { time: '10:00 AM', court1: { class: 'available', label: 'Available' }, court2: { class: 'available', label: 'Available' }, court3: { class: 'available', label: 'Available' }, court4: { class: 'available', label: 'Available' } },
+    { time: '11:00 AM', court1: { class: 'available', label: 'Available' }, court2: { class: 'available', label: 'Available' }, court3: { class: 'available', label: 'Available' }, court4: { class: 'available', label: 'Available' } },
+    { time: '12:00 PM', court1: { class: 'available', label: 'Available' }, court2: { class: 'available', label: 'Available' }, court3: { class: 'available', label: 'Available' }, court4: { class: 'available', label: 'Available' } },
+    { time: '1:00 PM', court1: { class: 'available', label: 'Available' }, court2: { class: 'available', label: 'Available' }, court3: { class: 'available', label: 'Available' }, court4: { class: 'available', label: 'Available' } },
+    { time: '2:00 PM', court1: { class: 'available', label: 'Available' }, court2: { class: 'available', label: 'Available' }, court3: { class: 'available', label: 'Available' }, court4: { class: 'available', label: 'Available' } },
+    { time: '3:00 PM', court1: { class: 'available', label: 'Available' }, court2: { class: 'available', label: 'Available' }, court3: { class: 'available', label: 'Available' }, court4: { class: 'available', label: 'Available' } },
+    { time: '4:00 PM', court1: { class: 'available', label: 'Available' }, court2: { class: 'available', label: 'Available' }, court3: { class: 'available', label: 'Available' }, court4: { class: 'available', label: 'Available' } },
+    { time: '5:00 PM', court1: { class: 'available', label: 'Available' }, court2: { class: 'available', label: 'Available' }, court3: { class: 'available', label: 'Available' }, court4: { class: 'available', label: 'Available' } },
+    { time: '6:00 PM', court1: { class: 'available', label: 'Available' }, court2: { class: 'available', label: 'Available' }, court3: { class: 'available', label: 'Available' }, court4: { class: 'available', label: 'Available' } },
+    { time: '7:00 PM', court1: { class: 'available', label: 'Available' }, court2: { class: 'available', label: 'Available' }, court3: { class: 'available', label: 'Available' }, court4: { class: 'available', label: 'Available' } },
+    { time: '8:00 PM', court1: { class: 'available', label: 'Available' }, court2: { class: 'available', label: 'Available' }, court3: { class: 'available', label: 'Available' }, court4: { class: 'available', label: 'Available' } },
+    { time: '9:00 PM', court1: { class: 'available', label: 'Available' }, court2: { class: 'available', label: 'Available' }, court3: { class: 'available', label: 'Available' }, court4: { class: 'available', label: 'Available' } },
+    { time: '10:00 PM', court1: { class: 'available', label: 'Available' }, court2: { class: 'available', label: 'Available' }, court3: { class: 'available', label: 'Available' }, court4: { class: 'available', label: 'Available' } }
+];
+
 // ── Total Price ──
 const totalPrice = computed(() => {
     let basePrice = 200;
     if (booking.value.players > 4) basePrice += 50;
     return basePrice;
+});
+
+// ── Filtered Time Slots based on selected date ──
+const filteredTimeSlots = computed(() => {
+    if (!booking.value.date) return timeSlots;
+    
+    const selected = new Date(booking.value.date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    // If date is in the past, mark all as unavailable
+    if (selected < today) {
+        return timeSlots.map(slot => {
+            const newSlot = { ...slot };
+            for (let i = 1; i <= 4; i++) {
+                newSlot[`court${i}`] = { 
+                    class: 'reserved', 
+                    label: 'Unavailable' 
+                };
+            }
+            return newSlot;
+        });
+    }
+    
+    // If date is more than 7 days in the future, use future availability
+    const sevenDaysLater = new Date();
+    sevenDaysLater.setDate(sevenDaysLater.getDate() + 7);
+    
+    if (selected > sevenDaysLater) {
+        return futureTimeSlots;
+    }
+    
+    // For today and up to 7 days ahead, use current time slots
+    return timeSlots;
 });
 
 // ── Step Functions ──
@@ -311,44 +427,48 @@ const getStepClass = (step) => {
 };
 
 const nextStep = (step) => {
-    if (!validateStep(step)) return;
+    // Validate based on current step
+    if (step === 1) {
+        if (!booking.value.date) {
+            alert('Please select a date.');
+            return;
+        }
+        if (!booking.value.time) {
+            alert('Please select a time.');
+            return;
+        }
+        // Check if date is past
+        const selected = new Date(booking.value.date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (selected < today) {
+            alert('⚠️ You cannot select a past date. Please choose today or a future date.');
+            return;
+        }
+    }
+    
+    if (step === 2) {
+        if (!booking.value.court) {
+            alert('Please select a court.');
+            return;
+        }
+    }
+    
     if (step === 3) {
+        if (!booking.value.payment) {
+            alert('Please select a payment method.');
+            return;
+        }
         // Final step - show confirmation
         currentStep.value = 4;
         return;
     }
+    
     currentStep.value = step + 1;
 };
 
 const prevStep = () => {
     currentStep.value = currentStep.value - 1;
-};
-
-// ── Validation ──
-const validateStep = (step) => {
-    if (step === 1) {
-        if (!booking.value.date) {
-            alert('Please select a date.');
-            return false;
-        }
-        if (!booking.value.time) {
-            alert('Please select a time.');
-            return false;
-        }
-    }
-    if (step === 2) {
-        if (!booking.value.court) {
-            alert('Please select a court.');
-            return false;
-        }
-    }
-    if (step === 3) {
-        if (!booking.value.payment) {
-            alert('Please select a payment method.');
-            return false;
-        }
-    }
-    return true;
 };
 
 // ── Helpers ──
@@ -366,6 +486,24 @@ const getTimeLabel = (time) => {
 // ── Set default date on mount ──
 onMounted(() => {
     booking.value.date = today.value;
+});
+
+// ── Watch for date changes ──
+watch(() => booking.value.date, (newVal) => {
+    if (newVal) {
+        validateDate();
+        // Reset time selection when date changes
+        booking.value.time = '';
+        timeError.value = '';
+        
+        // Update formatted date
+        const d = new Date(newVal);
+        formattedDate.value = d.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+    }
 });
 </script>
 
@@ -493,11 +631,27 @@ onMounted(() => {
     color: #333;
     margin-bottom: 18px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    position: relative;
 }
 
 .schedule-date i {
     color: #173A8D;
     font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.schedule-date i:hover {
+    transform: scale(1.1);
+    color: #0f2a6b;
+}
+
+.hidden-date-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
 }
 
 .schedule-table-wrapper {
@@ -688,6 +842,14 @@ onMounted(() => {
 
 .form-input[type="date"] {
     color-scheme: light;
+}
+
+.error-message {
+    display: block;
+    color: #ef4444;
+    font-size: 13px;
+    margin-top: 6px;
+    font-weight: 500;
 }
 
 /* Buttons */
