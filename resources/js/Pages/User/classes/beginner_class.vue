@@ -91,22 +91,6 @@
                 <div class="coach-info">
                     <span class="section-badge">Meet Your Coach</span>
                     <h2>Coach Mike</h2>
-                    
-                    <!-- Coach Quick Facts -->
-                    <div class="coach-quick-facts">
-                        <div class="fact">
-                            <span class="fact-number">50+</span>
-                            <span class="fact-label">Students Trained</span>
-                        </div>
-                        <div class="fact">
-                            <span class="fact-number">5+</span>
-                            <span class="fact-label">Years Experience</span>
-                        </div>
-                        <div class="fact">
-                            <span class="fact-number">100%</span>
-                            <span class="fact-label">Satisfaction Rate</span>
-                        </div>
-                    </div>
 
                     <div class="coach-credentials">
                         <span><i class="fa-solid fa-certificate"></i> Certified Coach</span>
