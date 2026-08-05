@@ -5,7 +5,7 @@
             main-heading="Classes"
             sub-heading="Elevate your game with elite coaching and high-energy training."
             bg-image="/images/hero_bg.jpg"
-            height="400px"
+            height="590px"
             :centered="true"
         />
 

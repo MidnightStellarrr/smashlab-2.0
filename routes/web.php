@@ -25,6 +25,10 @@ Route::get('/classes', function () {
     return Inertia::render('User/classes');
 })->name('classes');
 
+Route::get('/classes/beginner_class', function () {
+    return Inertia::render('User/classes/beginner_class');
+})->name('classes.beginner');
+
 // ============================================
 // USER PROFILE ROUTES (Authenticated)
 // ============================================

@@ -5,7 +5,7 @@
             main-heading="Book Now"
             sub-heading="Reserve your spot at SmashLab — where every game is an adventure."
             bg-image="/images/hero_bg.jpg"
-            height="400px"
+            height="590px"
             :centered="true"
         />
 
