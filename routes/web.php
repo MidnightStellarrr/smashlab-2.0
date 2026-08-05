@@ -36,6 +36,12 @@ Route::get('/classes/intermediate_class', function () {
 Route::get('/classes/advanced_class', function () {
     return Inertia::render('User/classes/advanced_class');
 })->name('classes.advanced');
+
+Route::get('/classes/enroll', function () {
+    return Inertia::render('User/classes/enroll');
+})->name('classes.enroll');
+
+
 // ============================================
 // USER PROFILE ROUTES (Authenticated)
 // ============================================
