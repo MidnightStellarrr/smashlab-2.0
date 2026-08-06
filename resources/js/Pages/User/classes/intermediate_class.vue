@@ -147,7 +147,9 @@
                                 <i class="fa-solid fa-check"></i> {{ feature }}
                             </li>
                         </ul>
-                        <Link :href="plan.link" class="pricing-btn">Choose {{ plan.name }}</Link>
+                        <Link :href="`/classes/enroll?class=${classType}&package=${plan.name.toLowerCase()}`" class="pricing-btn">
+                            Choose {{ plan.name }}
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -271,7 +273,7 @@ const pricingPlans = [
         save: null,
         description: 'Best for trying out',
         features: ['Pay per session', 'Flexible schedule', 'No commitment', 'Try before you commit'],
-        link: '/classes/enroll/intermediate?package=drop-in'
+        link: '/classes/enroll?class=intermediate&package=drop-in'
     },
     {
         name: 'Monthly',
@@ -281,7 +283,7 @@ const pricingPlans = [
         save: null,
         description: 'Best value for consistent training',
         features: ['4 sessions included', 'Progress tracking', 'Best value', 'Consistent training'],
-        link: '/classes/enroll/intermediate?package=monthly'
+        link: '/classes/enroll?class=intermediate&package=monthly'
     },
     {
         name: 'Quarterly',
@@ -291,7 +293,7 @@ const pricingPlans = [
         save: '10',
         description: 'Best for long-term commitment',
         features: ['12 sessions included', 'Save 10%', 'Priority booking', 'Certificate upon completion'],
-        link: '/classes/enroll/intermediate?package=quarterly'
+        link: '/classes/enroll?class=intermediate&package=quarterly'
     }
 ];
 
