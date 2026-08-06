@@ -41,6 +41,21 @@ Route::get('/classes/enroll', function () {
     return Inertia::render('User/classes/enroll');
 })->name('classes.enroll');
 
+Route::get('/shop', function () {
+    return Inertia::render('User/shop');
+})->name('shop');
+
+Route::get('/about_us', function () {
+    return Inertia::render('User/AboutUs');
+})->name('about.us');
+
+Route::get('/contact', function () {
+    return Inertia::render('User/Contact');
+})->name('contact');
+
+Route::get('/cart', function () {
+    return Inertia::render('User/Cart');
+})->name('cart');
 
 
 // ============================================
