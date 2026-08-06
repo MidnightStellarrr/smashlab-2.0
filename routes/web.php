@@ -50,7 +50,7 @@ Route::get('/about_us', function () {
 })->name('about.us');
 
 Route::get('/contact', function () {
-    return Inertia::render('User/Contact');
+    return Inertia::render('User/contact');
 })->name('contact');
 
 Route::get('/cart', function () {
