@@ -7,7 +7,7 @@
             class-badge="Advanced"
             class-duration="6 Weeks"
             button-text="Enroll Now"
-            button-link="/classes/enroll/advanced"
+            button-link="/classes/enroll"
             image-src="/images/hero_side_image.png"
         />
 

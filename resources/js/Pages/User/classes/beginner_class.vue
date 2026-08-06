@@ -7,7 +7,7 @@
             class-badge="Beginner"
             class-duration="6 Weeks"
             button-text="Enroll Now"
-            button-link="/classes/enroll/beginner"
+            button-link="/classes/enroll"
             image-src="/images/hero_side_image.png"
         />
 
