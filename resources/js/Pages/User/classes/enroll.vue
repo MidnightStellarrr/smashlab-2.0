@@ -35,9 +35,12 @@
 
                 <!-- Form Progress -->
                 <div class="form-progress">
-                    <div v-for="(step, index) in steps" :key="index" class="progress-step" :class="getStepClass(index + 1)">
-                        <span class="step-number">{{ index + 1 }}</span>
-                        <span class="step-label">{{ step.label }}</span>
+                    <div v-for="(step, index) in steps" :key="index" class="progress-step-wrapper">
+                        <div class="progress-step" :class="getStepClass(index + 1)">
+                            <span class="step-number">{{ index + 1 }}</span>
+                            <span class="step-label">{{ step.label }}</span>
+                        </div>
+                        <!-- Line between steps (except after the last one) -->
                         <div v-if="index < steps.length - 1" class="progress-line" :class="{ active: currentStep > index + 1 }"></div>
                     </div>
                 </div>
@@ -45,7 +48,7 @@
                 <form id="enrollmentForm" class="enrollment-form" @submit.prevent="submitForm">
 
                     <!-- Step 1: Personal Details -->
-                    <div v-show="currentStep === 1" class="form-step active" data-step="1">
+                    <div v-if="currentStep === 1" class="form-step" data-step="1">
                         <div class="form-header">
                             <h2>Personal Details</h2>
                             <p>Tell us a little about yourself so we can get to know you better.</p>
@@ -53,11 +56,11 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>First Name <span class="required">*</span></label>
+                                <label>First Name <span class="required"></span></label>
                                 <input type="text" v-model="form.first_name" placeholder="e.g. Juan" required>
                             </div>
                             <div class="form-group">
-                                <label>Last Name <span class="required">*</span></label>
+                                <label>Last Name <span class="required"></span></label>
                                 <input type="text" v-model="form.last_name" placeholder="e.g. Dela Cruz" required>
                             </div>
                         </div>
@@ -80,11 +83,11 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Phone Number <span class="required">*</span></label>
+                                <label>Phone Number <span class="required"></span></label>
                                 <input type="tel" v-model="form.phone" placeholder="e.g. +63 912 345 6789" required>
                             </div>
                             <div class="form-group">
-                                <label>Email Address <span class="required">*</span></label>
+                                <label>Email Address <span class="required"></span></label>
                                 <input type="email" v-model="form.email" placeholder="e.g. juan@email.com" required>
                             </div>
                         </div>
@@ -103,11 +106,11 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Emergency Contact Name <span class="required">*</span></label>
+                                <label>Emergency Contact Name <span class="required"></span></label>
                                 <input type="text" v-model="form.emergency_name" placeholder="e.g. Maria Dela Cruz" required>
                             </div>
                             <div class="form-group">
-                                <label>Emergency Contact Number <span class="required">*</span></label>
+                                <label>Emergency Contact Number <span class="required"></span></label>
                                 <input type="tel" v-model="form.emergency_phone" placeholder="e.g. +63 912 345 6789" required>
                             </div>
                         </div>
@@ -118,26 +121,29 @@
                     </div>
 
                     <!-- Step 2: Skills & Experience -->
-                    <div v-show="currentStep === 2" class="form-step" data-step="2">
+                    <div v-if="currentStep === 2" class="form-step" data-step="2">
                         <div class="form-header">
                             <h2>Skills & Experience</h2>
                             <p>Tell us about your badminton background so we can place you in the right class.</p>
                         </div>
 
-                        <!-- Class Selection -->
-                        <div class="form-group">
-                            <label>Select Class <span class="required">*</span></label>
-                            <select v-model="form.class_type" id="classType" required>
-                                <option value="">Select a class</option>
-                                <option value="beginner">Beginner Class</option>
-                                <option value="intermediate">Intermediate Class</option>
-                                <option value="advanced">Advanced Class</option>
-                            </select>
+                        <!-- Class Selection - Full width ONLY this one -->
+                        <div class="form-row full-width">
+                            <div class="form-group">
+                                <label>Select Class <span class="required"></span></label>
+                                <select v-model="form.class_type" id="classType" required>
+                                    <option value="">Select a class</option>
+                                    <option value="beginner">Beginner Class</option>
+                                    <option value="intermediate">Intermediate Class</option>
+                                    <option value="advanced">Advanced Class</option>
+                                </select>
+                            </div>
                         </div>
 
+                        <!-- Skill Level & Previous Experience - Normal 2 columns -->
                         <div class="form-row">
                             <div class="form-group">
-                                <label>Skill Level <span class="required">*</span></label>
+                                <label>Skill Level <span class="required"></span></label>
                                 <select v-model="form.skill_level" required>
                                     <option value="">Select your skill level</option>
                                     <option value="beginner">Beginner — No experience needed</option>
@@ -151,28 +157,11 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label>Health Conditions (Optional)</label>
-                            <textarea v-model="form.health_conditions" placeholder="List any health conditions we should know about..."></textarea>
-                        </div>
-
-                        <div class="form-row">
+                        <!-- Health Conditions - Full width ONLY this one -->
+                        <div class="form-row full-width">
                             <div class="form-group">
-                                <label>Preferred Days</label>
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" v-model="form.days" value="mon"> Mon/Wed/Fri</label>
-                                    <label><input type="checkbox" v-model="form.days" value="tue"> Tue/Thu</label>
-                                    <label><input type="checkbox" v-model="form.days" value="weekend"> Weekends</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Preferred Time</label>
-                                <select v-model="form.preferred_time">
-                                    <option value="">Select preferred time</option>
-                                    <option value="morning">Morning</option>
-                                    <option value="afternoon">Afternoon</option>
-                                    <option value="evening">Evening</option>
-                                </select>
+                                <label>Health Conditions (Optional)</label>
+                                <textarea v-model="form.health_conditions" placeholder="List any health conditions we should know about..."></textarea>
                             </div>
                         </div>
 
@@ -187,53 +176,59 @@
                     </div>
 
                     <!-- Step 3: Payment & Commitment -->
-                    <div v-show="currentStep === 3" class="form-step" data-step="3">
+                    <div v-if="currentStep === 3" class="form-step" data-step="3">
                         <div class="form-header">
                             <h2>Payment & Commitment</h2>
                             <p>Choose a package that works for you and complete your enrollment.</p>
                         </div>
 
-                        <!-- Package Selection -->
-                        <div class="form-group">
-                            <label>Package Selection <span class="required">*</span></label>
-                            <div class="package-options" id="packageOptions">
-                                <div v-for="(pkg, index) in packages" :key="index" 
-                                    class="package-option" :class="{ 'popular-package': pkg.popular }"
-                                    @click="selectPackage(pkg)">
-                                    <span v-if="pkg.popular" class="package-badge">Most Popular</span>
-                                    <input type="radio" name="package" :value="pkg.name.toLowerCase()" v-model="form.package">
-                                    <div class="package-content">
-                                        <h3>{{ pkg.name }}</h3>
-                                        <span class="package-price">{{ pkg.price }}</span>
-                                        <span class="package-desc">{{ pkg.desc }}</span>
+                        <!-- Package Selection - Full width -->
+                        <div class="form-row full-width">
+                            <div class="form-group">
+                                <label>Package Selection <span class="required"></span></label>
+                                <div class="package-options" id="packageOptions">
+                                    <div v-for="(pkg, index) in packages" :key="index" 
+                                        class="package-option" :class="{ 'popular-package': pkg.popular }"
+                                        @click="selectPackage(pkg)">
+                                        <span v-if="pkg.popular" class="package-badge">Most Popular</span>
+                                        <input type="radio" name="package" :value="pkg.name.toLowerCase()" v-model="form.package">
+                                        <div class="package-content">
+                                            <h3>{{ pkg.name }}</h3>
+                                            <span class="package-price">{{ pkg.price }}</span>
+                                            <span class="package-desc">{{ pkg.desc }}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Payment Method -->
-                        <div class="form-group">
-                            <label>Payment Method <span class="required">*</span></label>
-                            <div class="payment-methods">
-                                <div v-for="method in paymentMethods" :key="method.value" class="payment-option">
-                                    <input type="radio" name="payment_method" :id="'payment-' + method.value" :value="method.value" v-model="form.payment_method">
-                                    <label :for="'payment-' + method.value">
-                                        <i :class="method.icon"></i> {{ method.label }}
-                                    </label>
+                        <!-- Payment Method - Full width -->
+                        <div class="form-row full-width">
+                            <div class="form-group">
+                                <label>Payment Method <span class="required"></span></label>
+                                <div class="payment-methods">
+                                    <div v-for="method in paymentMethods" :key="method.value" class="payment-option">
+                                        <input type="radio" name="payment_method" :id="'payment-' + method.value" :value="method.value" v-model="form.payment_method">
+                                        <label :for="'payment-' + method.value">
+                                            <i :class="method.icon"></i> {{ method.label }}
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Waiver -->
-                        <div class="form-group waiver-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" v-model="form.waiver" required>
-                                I have read and agree to the <a href="#" class="waiver-link">Waiver and Consent Form</a>
-                            </label>
-                            <label class="checkbox-label">
-                                <input type="checkbox" v-model="form.terms" required>
-                                I agree to the <a href="#" class="terms-link">Terms and Regulations</a> of Smash Lab
-                            </label>
+                        <!-- Waiver - Full width -->
+                        <div class="form-row full-width">
+                            <div class="form-group waiver-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" v-model="form.waiver" required>
+                                    I have read and agree to the <a href="#" class="waiver-link">Waiver and Consent Form</a> <span class="required"></span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" v-model="form.terms" required>
+                                    I agree to the <a href="#" class="terms-link">Terms and Regulations</a> of Smash Lab <span class="required"></span>
+                                </label>
+                            </div>
                         </div>
 
                         <div class="form-actions">
@@ -257,7 +252,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted, nextTick } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import Navbar from '@/Components/Home/Navbar.vue';
 import Footer from '@/Components/Home/Footer.vue';
@@ -318,9 +313,9 @@ const packages = ref([]);
 
 // ── Payment Methods ──
 const paymentMethods = [
-    { value: 'gcash', label: 'GCash', icon: 'fa-solid fa-mobile-screen-button' },
-    { value: 'maya', label: 'Maya', icon: 'fa-solid fa-credit-card' },
-    { value: 'frontdesk', label: 'Front Desk', icon: 'fa-solid fa-building' }
+    { value: 'gcash', label: 'GCash'},
+    { value: 'maya', label: 'Maya'},
+    { value: 'frontdesk', label: 'Front Desk'}
 ];
 
 // ── Watch Class Type Change ──
@@ -356,7 +351,12 @@ const nextStep = (step) => {
 };
 
 const prevStep = () => {
+    const currentScrollY = window.scrollY;
     currentStep.value = currentStep.value - 1;
+    // Restore scroll position after DOM updates
+    nextTick(() => {
+        window.scrollTo(0, currentScrollY);
+    });
 };
 
 // ── Validation ──
@@ -407,15 +407,49 @@ const submitForm = () => {
 };
 
 // ── Set default class from URL ──
+// ── Set default class from URL ──
 onMounted(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const classParam = urlParams.get('class');
+    const packageParam = urlParams.get('package');
+    
     if (classParam && ['beginner', 'intermediate', 'advanced'].includes(classParam)) {
         form.value.class_type = classParam;
         packages.value = classPackages[classParam] || classPackages.beginner;
+        
+        // ── AUTO-SELECT PACKAGE FROM URL ──
+        if (packageParam) {
+            // Find matching package
+            const matchedPackage = packages.value.find(
+                pkg => pkg.name.toLowerCase() === packageParam.toLowerCase()
+            );
+            if (matchedPackage) {
+                form.value.package = matchedPackage.name.toLowerCase();
+            } else {
+                // Fallback: select popular package
+                const popularPkg = packages.value.find(p => p.popular);
+                if (popularPkg) {
+                    form.value.package = popularPkg.name.toLowerCase();
+                } else if (packages.value.length > 0) {
+                    form.value.package = packages.value[0].name.toLowerCase();
+                }
+            }
+        } else {
+            // No package param, auto-select popular
+            const popularPkg = packages.value.find(p => p.popular);
+            if (popularPkg) {
+                form.value.package = popularPkg.name.toLowerCase();
+            } else if (packages.value.length > 0) {
+                form.value.package = packages.value[0].name.toLowerCase();
+            }
+        }
     } else {
         // Default to beginner packages
         packages.value = classPackages.beginner;
+        const popularPkg = packages.value.find(p => p.popular);
+        if (popularPkg) {
+            form.value.package = popularPkg.name.toLowerCase();
+        }
     }
 });
 </script>
@@ -576,13 +610,25 @@ body {
     FORM PROGRESS
 ============================================*/
 .form-progress {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr auto 1fr;
-    align-items: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 50px;
-    padding: 0 160px;
+    padding: 0 20px;
     width: 100%;
-    gap: 150px;
+    gap: 0;
+}
+
+.progress-step-wrapper {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    max-width: 200px;
+}
+
+.progress-step-wrapper:last-child {
+    flex: 0 0 auto;
+    max-width: none;
 }
 
 .progress-step {
@@ -591,6 +637,7 @@ body {
     align-items: center;
     gap: 8px;
     position: relative;
+    flex-shrink: 0;
 }
 
 .progress-step:nth-child(1) { grid-column: 1; }
@@ -627,6 +674,9 @@ body {
     font-weight: 700;
     font-family: 'Poppins', sans-serif;
     transition: all 0.3s ease;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
 }
 
 .progress-step.active .step-number {
@@ -638,6 +688,7 @@ body {
 .progress-step.completed .step-number {
     background: #22c55e;
     color: #fff;
+    box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
 }
 
 .step-label {
@@ -646,12 +697,17 @@ body {
     color: #888;
     font-family: 'Poppins', sans-serif;
     transition: all 0.3s ease;
-    
+    text-align: center;
+    white-space: nowrap;
 }
 
 .progress-step.active .step-label {
     color: #173A8D;
     font-weight: 600;
+}
+
+.progress-step.completed .step-label {
+    color: #22c55e;
 }
 
 .progress-line {
@@ -667,11 +723,28 @@ body {
     background: #173A8D;
 }
 
+.progress-line {
+    flex: 1;
+    height: 3px;
+    background: #e8eaed;
+    transition: all 0.5s ease;
+    margin: 0 8px;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    min-width: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.progress-line.active {
+    background: #173A8D;
+    box-shadow: 0 2px 8px rgba(23, 58, 141, 0.2);
+}
+
 /*============================================
     FORM STEPS
 ============================================*/
 .form-step {
-    display: none;
     animation: fadeIn 0.4s ease;
 }
 
@@ -712,10 +785,28 @@ body {
     margin-bottom: 24px;
 }
 
+.form-row.full-width {
+    grid-template-columns: 1fr;
+}
+
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 6px;
+}
+
+.form-group textarea {
+    padding: 12px 16px;
+    border: 2px solid #e8eaed;
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+    background: #fff;
+    width: 100%;
+    color: #333;
+    resize: vertical;
+    min-height: 100px;
 }
 
 .form-group label {
@@ -848,6 +939,12 @@ body {
     font-weight: 800;
     color: #173A8D;
     font-family: 'Poppins', sans-serif;
+}
+
+.package-price .peso-sign {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    font-weight: 700;
+    letter-spacing: -1px;
 }
 
 .package-option .package-desc {

@@ -42,6 +42,7 @@ Route::get('/classes/enroll', function () {
 })->name('classes.enroll');
 
 
+
 // ============================================
 // USER PROFILE ROUTES (Authenticated)
 // ============================================
