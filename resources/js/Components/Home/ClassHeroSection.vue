@@ -299,7 +299,7 @@ defineProps({
 }
 
 /* ============================================
-   RESPONSIVE
+   RESPONSIVE - TABLETS (max-width: 1200px)
    ============================================ */
 @media (max-width: 1200px) {
     .hero-section {
@@ -307,104 +307,255 @@ defineProps({
     }
 
     .hero-content h1 {
-        font-size: 64px;
-    }
-
-    .hero-content p {
-        font-size: 20px;
-    }
-
-    .hero-image img {
-        width: 480px;
-    }
-}
-
-@media (max-width: 900px) {
-    .hero-section {
-        height: auto;
-        padding: 80px 0 40px;
-    }
-
-    .hero-shape {
-        display: none;
-    }
-
-    .hero-container {
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-        gap: 40px;
-    }
-
-    .hero-content {
-        max-width: 100%;
-        margin-top: 0;
-    }
-
-    .hero-content h1 {
-        font-size: 52px;
+        font-size: 56px;
     }
 
     .hero-content p {
         font-size: 18px;
     }
 
+    .hero-image img {
+        width: 480px;
+        height: 450px;
+        bottom: -10px;
+    }
+}
+
+/* ============================================
+   RESPONSIVE - TABLETS (max-width: 992px)
+   ============================================ */
+@media (max-width: 992px) {
+    .hero-section {
+        height: auto;
+        min-height: 600px;
+        padding: 80px 0 40px;
+    }
+
+    .hero-shape {
+        display: block;
+        right: -200px;
+        bottom: -30px;
+        width: 600px;
+        height: 180px;
+    }
+
+    .hero-container {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        gap: 20px;
+        padding: 0 5%;
+        height: auto;
+    }
+
+    .hero-content {
+        max-width: 100%;
+        margin-top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 20px;
+    }
+
+    .hero-content h1 {
+        font-size: 42px;
+    }
+
+    .hero-content p {
+        font-size: 17px;
+        max-width: 500px;
+    }
+
     .hero-image {
         justify-content: center;
+        align-items: center;
+        height: auto;
+        width: 100%;
+        padding-top: 10px;
     }
 
     .hero-image img {
-        width: 360px;
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+        max-height: 400px;
         bottom: 0;
+        object-fit: contain;
+        position: relative;
+        z-index: 5;
     }
 
     .class-badge {
         justify-content: center;
+        flex-wrap: wrap;
     }
 
     .hero-btn {
         padding: 12px 32px;
         font-size: 15px;
     }
+}
+
+/* ============================================
+   RESPONSIVE - PHONES (max-width: 768px)
+   ============================================ */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 50vh;
+        padding: 60px 0 30px;
+        display: flex;
+        align-items: center;
+    }
+
+    .hero-shape {
+        display: none;
+    }
+
+    .hero-image {
+        display: none;
+    }
+
+    .hero-container {
+        gap: 0;
+        padding: 0 4%;
+        height: auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 
     .hero-content {
+        max-width: 100%;
+        margin-top: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-section {
-        padding: 60px 0 30px;
+        padding-bottom: 0;
+        width: 100%;
+        justify-content: center;
     }
 
     .hero-content h1 {
-        font-size: 36px;
+        font-size: 34px;
+        margin-bottom: 12px;
     }
 
     .hero-content p {
-        font-size: 16px;
-    }
-
-    .hero-image img {
-        width: 280px;
+        font-size: 15px;
+        max-width: 100%;
     }
 
     .hero-btn {
-        padding: 10px 28px;
+        padding: 12px 28px;
         font-size: 14px;
     }
 
     .class-badge {
-        flex-wrap: wrap;
-        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        gap: 8px;
     }
 
     .badge-level,
     .badge-duration {
         font-size: 11px;
         padding: 4px 14px;
+    }
+}
+
+/* ============================================
+   RESPONSIVE - SMALL PHONES (max-width: 480px)
+   ============================================ */
+@media (max-width: 480px) {
+    .hero-section {
+        min-height: 50vh;
+        padding: 50px 0 20px;
+        display: flex;
+        align-items: center;
+    }
+
+    .hero-image {
+        display: none;
+    }
+
+    .hero-container {
+        gap: 0;
+        padding: 0 4%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .hero-content {
+        padding-bottom: 0;
+        justify-content: center;
+    }
+
+    .hero-content h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .hero-content p {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .hero-btn {
+        padding: 10px 24px;
+        font-size: 13px;
+        width: 100%;
+        max-width: 200px;
+        justify-content: center;
+        margin-top: 16px;
+    }
+
+    .class-badge {
+        margin-top: 5px;
+        margin-bottom: 8px;
+    }
+
+    .badge-level,
+    .badge-duration {
+        font-size: 10px;
+        padding: 3px 12px;
+    }
+}
+
+/* ============================================
+   RESPONSIVE - EXTRA SMALL PHONES (max-width: 360px)
+   ============================================ */
+@media (max-width: 360px) {
+    .hero-section {
+        min-height: 50vh;
+        padding: 40px 0 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .hero-image {
+        display: none;
+    }
+
+    .hero-content h1 {
+        font-size: 24px;
+    }
+
+    .hero-content p {
+        font-size: 13px;
+    }
+
+    .hero-btn {
+        padding: 8px 20px;
+        font-size: 12px;
+        max-width: 160px;
+    }
+
+    .badge-level,
+    .badge-duration {
+        font-size: 9px;
+        padding: 2px 10px;
     }
 }
 </style>
