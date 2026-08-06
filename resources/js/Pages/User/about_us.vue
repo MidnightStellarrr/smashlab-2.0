@@ -163,7 +163,7 @@
             </div>
 
             <div class="facilities-grid">
-                <!-- Left Large -->
+                <!-- Left Large - Premium Courts -->
                 <div class="facility-card large image-card">
                     <img src="/images/badminton_courts.jpg" alt="Court">
                     <div class="overlay"></div>
@@ -173,122 +173,33 @@
                     </div>
                 </div>
 
-                <!-- Small Top -->
-                <div class="facility-card text-card">
-                    <h3>Premium Flooring</h3>
-                    <p>
-                        Professional-grade rubber mats for
-                        optimal grip and safety.
-                    </p>
-                </div>
-
-                <!-- Middle Large -->
-                <div class="facility-card tall text-card center">
-                    <h3>LED Lighting</h3>
-                    <p>
-                        LED lighting with no glare and no
-                        shadows — just clear visibility
-                        for every shot.
-                    </p>
-                </div>
-
-                <!-- Top Right -->
+                <!-- Small Top - Premium Flooring -->
                 <div class="facility-card image-card">
-                    <img src="/images/locker.jpg" alt="Locker">
+                    <img src="/images/locker.jpg" alt="Shower and Locker Rooms">
                     <div class="overlay"></div>
                     <div class="facility-content white">
-                        <h3>Shower & Locker Rooms</h3>
-                        <p>Freshen up after your games in our amenities.</p>
+                        <h3>Shower and Locker Rooms</h3>
+                        <p>Keep yourself fresh and ready for your next game.</p>
                     </div>
                 </div>
 
-                <!-- Bottom Left -->
-                <div class="facility-card image-card">
-                    <img src="/images/Climate-Controlled.jpg" alt="AC">
+                <!-- Middle Large - LED Lighting -->
+                <div class="facility-card tall image-card">
+                    <img src="/images/court_lights.jpg" alt="LED Lighting">
                     <div class="overlay"></div>
                     <div class="facility-content white">
-                        <h3>Climate-Controlled</h3>
-                        <p>Fully air-conditioned for your comfort.</p>
+                        <h3>LED Lighting</h3>
+                        <p>LED lighting with no glare and no shadows — just clear visibility for every shot.</p>
                     </div>
                 </div>
 
-                <!-- Bottom Right -->
-                <div class="facility-card text-card">
-                    <h3>Snacks & Drinks</h3>
-                    <p>
-                        Grab a drink or a snack at our shop.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========================================
-                SECTION 6: WHAT WE OFFER
-        ======================================== -->
-
-        <section class="what-we-offer">
-            <div class="owo-top">
-                <div class="owo-left">
-                    <span class="owo-badge">What We Offer</span>
-                    <h2>THE SMASH LAB <br> EXPERIENCE</h2>
-                </div>
-
-                <div class="owo-right">
-                    <p>
-                        Everything you need for the perfect game. From
-                        finding an open court to renting a racket and grabbing
-                        a drink. We handle it all.
-                    </p>
-
-                    <Link to="/services" class="owo-arrow-btn">
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </Link>
-                </div>
-            </div>
-
-            <div class="offer-cards">
-                <div class="offer-card court-card">
-                    <div class="card-overlay blue-overlay"></div>
-                    <div class="card-content">
-                        <h3>Premium Courts</h3>
-                        <p>
-                            Well-maintained courts with professional
-                            flooring, tournament-grade dimensions,
-                            premium lighting, and real-time online
-                            booking for a seamless playing experience.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="offer-card class-card">
-                    <div class="card-overlay grey-overlay"></div>
-                    <div class="card-content bottom">
-                        <h3>Pro Classes</h3>
-                        <p>
-                            Learn from certified coaches — beginners to
-                            advanced.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="offer-card gear-card">
-                    <div class="card-overlay grey-overlay"></div>
-                    <div class="card-content bottom">
-                        <h3>Gears and Snacks</h3>
-                        <p>
-                            Gears and snacks available for purchase.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="offer-card booking-card">
-                    <div class="card-overlay grey-overlay"></div>
-                    <div class="card-content bottom">
-                        <h3>Smart Booking</h3>
-                        <p>
-                            Book, manage, and track everything from
-                            your dashboard.
-                        </p>
+                <!-- Top Right - Shower & Locker Rooms -->
+                <div class="facility-card image-card">
+                    <img src="/images/gear_and_shop.jpg" alt="Locker">
+                    <div class="overlay"></div>
+                    <div class="facility-content white">
+                        <h3>Snacks & Drinks</h3>
+                        <p>Grab a drink or a snack at our shop.</p>
                     </div>
                 </div>
             </div>
@@ -363,7 +274,7 @@
                 </div>
             </div>
         </section>
-
+        
         <!-- ========================================
                 SECTION 8: CTA - READY TO PLAY
         ======================================== -->
@@ -379,7 +290,7 @@
                     play at Smash Lab.
                 </p>
 
-                <Link to="/book_now" class="cta-btn">
+                <Link href="/book_now" class="cta-btn">
                     Get Started Now
                 </Link>
             </div>
@@ -545,7 +456,7 @@ import Footer from '@/Components/Home/Footer.vue';
     margin: 0 auto;
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
-    grid-template-rows: auto auto;
+    grid-template-rows: auto auto auto;
     gap: 20px;
 }
 
@@ -598,7 +509,7 @@ import Footer from '@/Components/Home/Footer.vue';
 }
 
 .facility-card.text-card {
-    background: #f5f6f8;
+    background: #173A8D;
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -608,13 +519,13 @@ import Footer from '@/Components/Home/Footer.vue';
 .facility-card.text-card h3 {
     font-size: 20px;
     font-weight: 700;
-    color: #111;
+    color: #ffffff;
     margin-bottom: 8px;
 }
 
 .facility-card.text-card p {
     font-size: 14px;
-    color: #666;
+    color: #ffffff;
     line-height: 1.6;
 }
 
@@ -748,8 +659,9 @@ import Footer from '@/Components/Home/Footer.vue';
 ======================================== */
 
 .train-pro {
-    padding: 80px 8% 100px;
-    background: #fff;
+    padding: 100px 8% 110px;
+    background: #f5f6f8; /* Grey background */
+    text-align: center;
 }
 
 .section-heading {
@@ -759,41 +671,71 @@ import Footer from '@/Components/Home/Footer.vue';
 }
 
 .section-heading h2 {
-    font-size: 42px;
+    font-size: 58px;
     font-weight: 800;
-    color: #111;
-    margin-bottom: 12px;
+    color: #000;
+    margin-bottom: 14px;
 }
 
 .section-heading p {
     font-size: 18px;
-    color: #666;
+    color: #555;
+    max-width: 560px;
+    margin: 0 auto 60px;
+    line-height: 1.5;
 }
 
 .train-cards {
-    max-width: 1400px;
-    margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    gap: 28px;
+    max-width: 1500px;
+    margin: 0 auto;
 }
 
 .train-card {
-    background: #f5f6f8;
-    border-radius: 16px;
+    background: #fff;
+    border-radius: 20px;
     overflow: hidden;
-    transition: all 0.3s ease;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .train-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    transform: translateY(-12px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 .train-card-img {
-    height: 200px;
+    position: relative;
+    width: 100%;
+    height: 300px;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    filter: blur(0px);
+    transition: filter 0.4s ease;
+}
+
+.train-card-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(128, 128, 128, 0.6);
+    transition: opacity 0.4s ease;
+    z-index: 1;
+}
+
+.train-card:hover .train-card-img::after {
+    opacity: 0;
+}
+
+.train-card:hover .train-card-img {
+    filter: blur(0px);
 }
 
 .beginner-card .train-card-img {
@@ -805,53 +747,135 @@ import Footer from '@/Components/Home/Footer.vue';
 }
 
 .advanced-card .train-card-img {
-    background-image: url('/images/advanced_class.jpg');
+    background-image: url('/images/advance_class.jpg');
 }
 
 .train-card-body {
-    padding: 24px 28px 28px;
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 200px;
+    padding: 28px 30px 32px;
 }
 
 .train-card-body h3 {
-    font-size: 22px;
+    font-size: 28px;
     font-weight: 700;
-    color: #111;
-    margin-bottom: 8px;
+    color: #000;
+    margin-bottom: 12px;
 }
 
 .train-card-body p {
     font-size: 15px;
-    color: #666;
+    color: #555;
     line-height: 1.6;
-    margin-bottom: 16px;
+    max-width: 320px;
 }
 
 .learn-more-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
-    color: #173A8D;
+    width: fit-content;
+    padding: 14px 26px;
+    margin-top: 26px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 40px;
+    font-size: 15px;
     font-weight: 600;
     text-decoration: none;
-    font-size: 15px;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.learn-more-btn:hover {
-    gap: 16px;
-}
-
 .learn-more-btn i {
-    font-size: 14px;
-    transition: transform 0.3s ease;
+    font-size: 13px;
 }
 
-.learn-more-btn:hover i {
-    transform: translateX(4px);
+.learn-more-btn:hover {
+    background: #1f47d8;
+}
+
+.learn-more-btn:active {
+    transform: scale(0.95);
+}
+
+/* ========================================
+    RESPONSIVE - TRAIN LIKE A PRO
+======================================== */
+
+@media (max-width: 1200px) {
+    .train-pro {
+        padding: 80px 5% 90px;
+    }
+
+    .section-heading h2 {
+        font-size: 44px;
+    }
+
+    .train-card-img {
+        height: 260px;
+    }
+}
+
+@media (max-width: 992px) {
+    .train-cards {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .train-cards {
+        grid-template-columns: 1fr;
+        max-width: 450px;
+        margin: 0 auto;
+    }
+
+    .train-pro {
+        padding: 60px 5% 70px;
+    }
+
+    .section-heading h2 {
+        font-size: 36px;
+    }
+
+    .section-heading p {
+        font-size: 16px;
+    }
+
+    .train-card-img {
+        height: 280px;
+    }
+
+    .train-card-body h3 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .train-pro {
+        padding: 50px 4% 60px;
+    }
+
+    .section-heading h2 {
+        font-size: 28px;
+    }
+
+    .train-card-body {
+        padding: 22px 22px 26px;
+    }
+
+    .train-card-body h3 {
+        font-size: 22px;
+    }
+
+    .learn-more-btn {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
 }
 
 /* ========================================
@@ -1080,16 +1104,18 @@ import Footer from '@/Components/Home/Footer.vue';
     }
 
     .facilities-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
         grid-template-rows: auto;
     }
 
     .facility-card.large {
         grid-row: span 1;
+        grid-column: span 2;
     }
 
     .facility-card.tall {
         grid-row: span 1;
+        grid-column: span 2;
     }
 
     .offer-cards {
@@ -1163,6 +1189,18 @@ import Footer from '@/Components/Home/Footer.vue';
 
     .cta-section {
         height: 350px;
+    }
+
+    .facilities-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .facility-card.large {
+        grid-column: span 1;
+    }
+
+    .facility-card.tall {
+        grid-column: span 1;
     }
 }
 
