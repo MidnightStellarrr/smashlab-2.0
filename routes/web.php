@@ -46,7 +46,7 @@ Route::get('/shop', function () {
 })->name('shop');
 
 Route::get('/about_us', function () {
-    return Inertia::render('User/AboutUs');
+    return Inertia::render('User/about_us');
 })->name('about.us');
 
 Route::get('/contact', function () {
