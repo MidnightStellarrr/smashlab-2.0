@@ -70,6 +70,22 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/mybookings', function () {
+    return Inertia::render('User/MyBookings');
+})->name('mybookings');
+
+Route::get('/myclasses', function () {
+    return Inertia::render('User/MyClasses');
+})->name('myclasses');
+
+Route::get('/settings', function () {
+    return Inertia::render('User/Settings');
+})->name('settings');
+
+Route::get('/help-support', function () {
+    return Inertia::render('User/HelpSupport');
+})->name('help.support');
+
 // ============================================
 // ADMIN ROUTES
 // ============================================
