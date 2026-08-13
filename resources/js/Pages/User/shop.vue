@@ -1,20 +1,18 @@
 <template>
     <div class="shop-page">
-        <!-- Navbar -->
-        <Navbar />
+        <Head title="Shop" />
+            <!-- Hero Section -->
+            <Hero 
+                main-heading="Shop"
+                sub-heading="Gear up for your game — from rackets to snacks, we've got you covered."
+                bg-image="/images/hero_bg.jpg"
+                height="590px"
+                :centered="true"
+            />
 
-        <!-- Hero Section -->
-        <Hero 
-            main-heading="Shop"
-            sub-heading="Gear up for your game — from rackets to snacks, we've got you covered."
-            bg-image="/images/hero_bg.jpg"
-            height="590px"
-            :centered="true"
-        />
-
-        <!-- Shop Section -->
-        <section class="shop-section">
-            <div class="shop-container">
+            <!-- Shop Section -->
+            <section class="shop-section">
+                <div class="shop-container">
 
                 <!-- Shop Controls -->
                 <div class="shop-controls">
@@ -147,7 +145,6 @@
                 </div>
             </div>
         </section>
-
         <!-- Footer -->
         <Footer />
     </div>
@@ -155,7 +152,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import Navbar from '@/Components/Home/Navbar.vue';
+import { Head } from '@inertiajs/vue3';
 import Hero from '@/Components/Home/HeroSection.vue';
 import Footer from '@/Components/Home/Footer.vue';
 
@@ -486,13 +483,16 @@ onMounted(() => {
 ======================================*/
 
 .shop-section {
-    padding: 60px 8% 100px;
+    /* make section full-bleed so background spans edge-to-edge */
+    padding: 60px 0 100px;
     background: #fff;
 }
 
 .shop-container {
     max-width: 1400px;
     margin: 0 auto;
+    /* keep internal horizontal spacing consistent with other pages */
+    padding: 0 8%;
 }
 
 /*======================================

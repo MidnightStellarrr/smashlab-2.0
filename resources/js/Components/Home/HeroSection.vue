@@ -3,10 +3,10 @@
         <div class="overlay"></div>
 
         <!-- Navigation -->
-        <Navbar />
+        <Navbar v-if="showNavbar" />
 
         <!-- Hero Content -->
-        <div class="hero-content" :class="{ 'centered': centered }">
+        <div class="hero-content" :class="{ 'centered': centered, 'full-width': fullWidth }">
             <div class="left-content">
                 <h1 v-html="mainHeading"></h1>
             </div>
@@ -57,6 +57,14 @@ const props = defineProps({
     centered: {
         type: Boolean,
         default: false
+    },
+    showNavbar: {
+        type: Boolean,
+        default: true
+    },
+    fullWidth: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -95,6 +103,12 @@ const heroStyle = computed(() => ({
     align-items: flex-end;
     margin-top: 130px;
     padding: 0 110px 110px;
+}
+
+.hero-content.full-width {
+    padding: 0;
+    margin-top: 0;
+    height: 100%;
 }
 
 /* Centered layout for inner pages */

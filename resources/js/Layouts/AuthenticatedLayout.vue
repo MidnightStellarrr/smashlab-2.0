@@ -2,6 +2,7 @@
     <div class="flex min-h-screen bg-gray-100 dark:bg-black">
         <!-- ── Sidebar ── -->
         <aside
+            v-if="showSidebar"
             class="fixed inset-y-0 left-0 z-50 w-64 transform bg-gradient-to-b from-[#0a1628] to-[#1a2a4a] transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static"
             :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
         >
@@ -91,7 +92,7 @@
             <!-- Page Content -->
             <main class="min-h-screen bg-gray-100 dark:bg-black">
                 <!-- Header -->
-                <header v-if="$slots.header" class="border-b border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+                    <header v-if="$slots.header && showHeader" class="border-b border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
                     <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-6 sm:px-6 lg:px-8">
                         <div class="flex items-center gap-3">
                             <slot name="header" />
@@ -194,6 +195,13 @@ import { Link, usePage } from '@inertiajs/vue3';
 
 const { props } = usePage();
 const user = props.auth.user;
+
+const propsDef = defineProps({
+    showSidebar: { type: Boolean, default: true },
+    showHeader: { type: Boolean, default: true },
+});
+const showSidebar = propsDef.showSidebar;
+const showHeader = propsDef.showHeader;
 
 // ── State ──
 const sidebarOpen = ref(false);
